@@ -9,7 +9,7 @@ import java.util.List;
 @Dao
 public interface ItemsDao {
     @Insert
-    List<Long> insertAll(ListItem... items);
+    void insertAll(ListItem items);
 
     @Query("SELECT * FROM listitem")
     List<ListItem> getAllItems();

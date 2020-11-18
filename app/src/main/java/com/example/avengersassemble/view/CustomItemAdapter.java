@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ public class CustomItemAdapter extends RecyclerView.Adapter<CustomItemAdapter.Vi
 
 
     private ArrayList<ListItem> listItems;
+
     public CustomItemAdapter(ArrayList<ListItem> listItem) {
         this.listItems = listItem;
     }
@@ -42,9 +44,9 @@ public class CustomItemAdapter extends RecyclerView.Adapter<CustomItemAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ListItem listItem = listItems.get(position);
         holder.textViewHead.setText(listItem.getHead());
-
-        holder.textViewLocationOfChef.setText(listItem.getLocation());
-        holder.textViewPrice.setText("Rs "+listItem.getPrice());
+        holder.textViewPower.setText(listItem.getPower());
+        holder.textViewDesc.setText(listItem.getDescription());
+        holder.imageViewCh.setImageBitmap(listItem.getSimage());
 //        holder.itemsLayout.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -64,20 +66,20 @@ public class CustomItemAdapter extends RecyclerView.Adapter<CustomItemAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewHead;
         TextView textViewDesc;
-        TextView textViewLocationOfChef;
-        TextView textViewPrice;
+        TextView textViewPower;
+        ImageView imageViewCh;
         Button orderNowButton;
         LinearLayout itemsLayout;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewHead = (TextView) itemView.findViewById(R.id.dishName);
-            textViewDesc = (TextView) itemView.findViewById(R.id.descriptionOfDish);
-            textViewLocationOfChef = (TextView) itemView.findViewById(R.id.locationOfChef);
-            textViewPrice = (TextView) itemView.findViewById(R.id.priceOfDish);
+            textViewHead = (TextView) itemView.findViewById(R.id.chName);
+            textViewDesc = (TextView) itemView.findViewById(R.id.descriptionCh);
+            textViewPower = (TextView) itemView.findViewById(R.id.powerCh);
+            imageViewCh = (ImageView) itemView.findViewById(R.id.chImg);
             //orderNowButton = (Button) itemView.findViewById(R.id.orderNow);
-            itemsLayout= itemView.findViewById(R.id.itemsLayout);
+            itemsLayout = itemView.findViewById(R.id.itemsLayout);
 
         }
     }

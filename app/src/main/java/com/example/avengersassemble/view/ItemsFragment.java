@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,8 @@ import com.example.avengersassemble.model.ListItem;
 import com.example.avengersassemble.viewmodel.ItemViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -55,19 +58,26 @@ public class ItemsFragment extends Fragment {
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-
+        itemViewModel.refresh();
         onRefresh.setOnRefreshListener(() -> {
-            recyclerView.setVisibility(View.GONE);
-            errorView.setVisibility(View.GONE);
-            loadView.setVisibility(View.GONE);
+            itemViewModel.refresh();
             onRefresh.setRefreshing(false);
         });
         observeViewModel();
 
-
     }
 
+
     private void observeViewModel() {
+        itemViewModel.displayItems.observe(getViewLifecycleOwner(), new Observer<List<ListItem>>() {
+            @Override
+            public void onChanged(List<ListItem> listItems) {
+                if (listItems != null) {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    adapter.updateListItems(listItems);
+                }
+            }
+        });
     }
 
 }
