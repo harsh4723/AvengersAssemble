@@ -93,7 +93,7 @@ public class AddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 addViewModel.addCharacters(chTitle.getText().toString(), descriptionTitle.getText().toString(),
-                        superPower.getText().toString(),imageSrc);
+                        superPower.getText().toString(), imageSrc);
                 addScreen.setVisibility(View.GONE);
                 postAgain.setVisibility(View.VISIBLE);
             }
@@ -135,8 +135,8 @@ public class AddFragment extends Fragment {
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(
-                        Objects.requireNonNull(getActivity()).getContentResolver(),imageUri);
-                imageSrc =  RoomConverters.BitMapToString(bitmap);
+                        Objects.requireNonNull(getActivity()).getContentResolver(), imageUri);
+                imageSrc = RoomConverters.BitMapToString(bitmap);
 
             } catch (IOException e) {
                 e.printStackTrace();
