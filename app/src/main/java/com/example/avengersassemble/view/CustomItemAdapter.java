@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.avengersassemble.R;
+import com.example.avengersassemble.model.ItemDataBase;
+import com.example.avengersassemble.model.ItemsDao;
 import com.example.avengersassemble.model.ListItem;
 
 import java.util.ArrayList;
@@ -47,15 +50,25 @@ public class CustomItemAdapter extends RecyclerView.Adapter<CustomItemAdapter.Vi
         holder.textViewPower.setText(listItem.getPower());
         holder.textViewDesc.setText(listItem.getDescription());
         holder.imageViewCh.setImageBitmap(listItem.getSimage());
-//        holder.itemsLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent inPay = new Intent(v.getContext(), PaymentsActivity.class);
-//                //inPay.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                inPay.putExtra("PRICE_TAG",listItem.getPrice());
-//                v.getContext().startActivity(inPay);
-//            }
-//        });
+        holder.delButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listItems.remove(listItem);
+                notifyDataSetChanged();
+                deleteFromDatabase(listItem,v);
+            }
+        });
+    }
+
+    private void deleteFromDatabase(ListItem item,View v) {
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ItemsDao dao = ItemDataBase.getInstance(v.getContext()).itemsDao();
+                dao.delete(item);
+            }
+        });
+        th.start();
     }
 
     @Override
@@ -68,17 +81,17 @@ public class CustomItemAdapter extends RecyclerView.Adapter<CustomItemAdapter.Vi
         TextView textViewDesc;
         TextView textViewPower;
         ImageView imageViewCh;
-        Button orderNowButton;
+        ImageButton delButton;
         LinearLayout itemsLayout;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewHead = (TextView) itemView.findViewById(R.id.chName);
-            textViewDesc = (TextView) itemView.findViewById(R.id.descriptionCh);
-            textViewPower = (TextView) itemView.findViewById(R.id.powerCh);
-            imageViewCh = (ImageView) itemView.findViewById(R.id.chImg);
-            //orderNowButton = (Button) itemView.findViewById(R.id.orderNow);
+            textViewHead = itemView.findViewById(R.id.chName);
+            textViewDesc = itemView.findViewById(R.id.descriptionCh);
+            textViewPower = itemView.findViewById(R.id.powerCh);
+            imageViewCh = itemView.findViewById(R.id.chImg);
+            delButton = itemView.findViewById(R.id.del);
             itemsLayout = itemView.findViewById(R.id.itemsLayout);
 
         }

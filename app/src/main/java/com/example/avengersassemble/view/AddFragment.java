@@ -23,12 +23,14 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.example.avengersassemble.R;
 import com.example.avengersassemble.model.ListItem;
 import com.example.avengersassemble.model.RoomConverters;
 import com.example.avengersassemble.viewmodel.AddViewModel;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -65,6 +67,9 @@ public class AddFragment extends Fragment {
 
     @BindView(R.id.addImg)
     Button addImage;
+
+    @BindView(R.id.isAdd)
+    TextView isAdd;
 
     private AddViewModel addViewModel;
     Uri imageUri;
@@ -136,7 +141,19 @@ public class AddFragment extends Fragment {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(
                         Objects.requireNonNull(getActivity()).getContentResolver(), imageUri);
-                imageSrc = RoomConverters.BitMapToString(bitmap);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] imageInByte = stream.toByteArray();
+                long lengthbmp = imageInByte.length;
+                long byt = lengthbmp/1024;
+                Log.d("BYTE", byt + " count");
+                if(byt<800){
+                    imageSrc = RoomConverters.BitMapToString(bitmap);
+                    isAdd.setText("ADDED");
+                }
+                else{
+                    isAdd.setText("Image is too large");
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();

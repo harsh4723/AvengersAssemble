@@ -58,6 +58,12 @@ public class ItemsFragment extends Fragment {
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+        if(adapter.getItemCount()==0){
+            errorView.setVisibility(View.VISIBLE);
+        }
+        else{
+            errorView.setVisibility(View.GONE);
+        }
         itemViewModel.refresh();
         onRefresh.setOnRefreshListener(() -> {
             itemViewModel.refresh();
@@ -75,6 +81,24 @@ public class ItemsFragment extends Fragment {
                 if (listItems != null) {
                     recyclerView.setVisibility(View.VISIBLE);
                     adapter.updateListItems(listItems);
+                    if(adapter.getItemCount() == 0){
+                        errorView.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        errorView.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+
+        itemViewModel.itemLoading.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean != null) {
+                    loadView.setVisibility(aBoolean ? View.VISIBLE : View.GONE);
+                    if (aBoolean) {
+                        recyclerView.setVisibility(View.GONE);
+                    }
                 }
             }
         });

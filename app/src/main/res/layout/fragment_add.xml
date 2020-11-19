@@ -29,8 +29,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
             android:layout_gravity="center_horizontal"
+            android:fontFamily="sans-serif"
             android:text="Add your favorite Marvel Character"
             android:textSize="15sp" />
 
@@ -71,24 +71,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Super Power" />
-            <Button
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/addImg"
-                android:text="ADD IMAGE"/>
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/addImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ADD IMAGE LESS THAN 1MB" />
+                <TextView
+                    android:id="@+id/isAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NOT ADDED"/>
+            </LinearLayout>
+
             <Button
                 android:id="@+id/postCh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_top_16"
+                android:layout_marginBottom="100dp"
                 android:background="@drawable/button_red_style"
                 android:padding="@dimen/margin_bottom_8"
                 android:text="ADD YOUR CHARACTER"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_marginBottom="100dp"/>
+                android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
 

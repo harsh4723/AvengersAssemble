@@ -1,6 +1,7 @@
 package com.example.avengersassemble.model;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -10,6 +11,9 @@ import java.util.List;
 public interface ItemsDao {
     @Insert
     void insertAll(ListItem items);
+
+    @Delete
+    void delete(ListItem item);
 
     @Query("SELECT * FROM listitem")
     List<ListItem> getAllItems();

@@ -14,6 +14,7 @@ import java.util.List;
 
 public class ItemViewModel extends AndroidViewModel {
     public MutableLiveData<List<ListItem>> displayItems = new MutableLiveData<List<ListItem>>();
+    public MutableLiveData<Boolean> itemLoading = new MutableLiveData<Boolean>();
     private AsyncTask<Void, Void, List<ListItem>> retrieveTask;
 
     public ItemViewModel(@NonNull Application application) {
@@ -25,11 +26,13 @@ public class ItemViewModel extends AndroidViewModel {
     }
 
     private void fetchFromDatabase() {
+        itemLoading.setValue(true);
         retrieveTask = new RetrieveItemTask();
         retrieveTask.execute();
     }
 
     private void itemsRetrieved(List<ListItem> listItems) {
+        itemLoading.setValue(false);
         displayItems.setValue(listItems);
     }
 
